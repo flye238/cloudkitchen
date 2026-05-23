@@ -1,0 +1,55 @@
+#cloud-config
+# Clones CloudKitchen from GitHub and starts it as a systemd service.
+
+package_update: true
+packages:
+  - git
+  - curl
+
+runcmd:
+  - curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
+  - apt-get install -y nodejs
+  - git clone ${repo_url} /opt/cloudkitchen
+  - cd /opt/cloudkitchen && npm ci --only=production
+  - |
+    cat > /etc/cloudkitchen.env << 'ENVEOF'
+    PORT=3000
+    BLOB_STORAGE_BASE_URL=${blob_base_url}
+    COSMOS_ENDPOINT=${cosmos_endpoint}
+    COSMOS_KEY=${cosmos_key}
+    COSMOS_DB_NAME=${cosmos_db}
+    COSMOS_CONTAINER_NAME=${cosmos_container}
+    POSTGRES_HOST=${postgres_host}
+    POSTGRES_DB=${postgres_db}
+    POSTGRES_USER=${postgres_user}
+    POSTGRES_PASSWORD=${postgres_password}
+    POSTGRES_SSL=true
+    ENVEOF
+  - chmod 600 /etc/cloudkitchen.env
+  - chown -R azureuser:azureuser /opt/cloudkitchen
+  - systemctl daemon-reload
+  - systemctl enable cloudkitchen
+  - systemctl start cloudkitchen
+
+write_files:
+  - path: /etc/systemd/system/cloudkitchen.service
+    permissions: "0644"
+    content: |
+      [Unit]
+      Description=CloudKitchen Node.js Application
+      After=network-online.target
+      Wants=network-online.target
+
+      [Service]
+      Type=simple
+      User=azureuser
+      WorkingDirectory=/opt/cloudkitchen
+      EnvironmentFile=/etc/cloudkitchen.env
+      ExecStart=/usr/bin/node server.js
+      Restart=on-failure
+      RestartSec=10
+      StandardOutput=journal
+      StandardError=journal
+
+      [Install]
+      WantedBy=multi-user.target

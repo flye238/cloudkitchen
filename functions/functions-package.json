@@ -1,0 +1,9 @@
+{
+  "name": "cloudkitchen-functions",
+  "version": "1.0.0",
+  "description": "CloudKitchen Azure Functions — Serverless API (Scenario 3)",
+  "dependencies": {
+    "@azure/cosmos": "^4.0.0",
+    "pg": "^8.11.5"
+  }
+}

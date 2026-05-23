@@ -1,0 +1,18 @@
+# Copy to terraform.tfvars and fill in your values.
+# terraform.tfvars is gitignored — never commit it.
+
+prefix              = "ckitchen"
+resource_group_name = "cloudkitchen-rg"
+location            = "eastus"
+
+postgres_admin_user     = "kitchenadmin"
+postgres_admin_password = "REPLACE_ME_StrongP@ssword1!"
+
+# Output of: type $env:USERPROFILE\.ssh\cloudshop_rsa.pub
+ssh_public_key = "ssh-rsa AAAAB3Nz... your-public-key-here"
+
+tags = {
+  project     = "cloudkitchen"
+  environment = "class"
+  managed_by  = "terraform"
+}

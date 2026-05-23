@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CloudKitchen</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-icon">🍳</span>
+        <span class="logo-text">CloudKitchen</span>
+      </div>
+      <button class="cookbook-btn" id="cookbookBtn" aria-label="Open cookbook">
+        📖 Cookbook
+        <span class="cookbook-badge" id="cookbookBadge">0</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <h1>Discover recipes from around the world.</h1>
+    <p>Save your favorites and build your weekly meal plan — all in the cloud.</p>
+  </section>
+
+  <!-- Recipe Grid -->
+  <main class="main">
+    <div class="section-label">All Recipes</div>
+    <div class="recipe-grid" id="recipeGrid">
+      <div class="recipe-card skeleton"></div>
+      <div class="recipe-card skeleton"></div>
+      <div class="recipe-card skeleton"></div>
+      <div class="recipe-card skeleton"></div>
+      <div class="recipe-card skeleton"></div>
+      <div class="recipe-card skeleton"></div>
+    </div>
+    <div class="error-banner" id="errorBanner" hidden>
+      ⚠️ Could not load recipes. Is the server running?
+    </div>
+  </main>
+
+  <!-- Cookbook Sidebar -->
+  <div class="overlay" id="overlay"></div>
+  <aside class="sidebar" id="sidebar" aria-label="Cookbook">
+    <div class="sidebar-header">
+      <h2>My Cookbook</h2>
+      <button class="close-btn" id="closeSidebarBtn">✕</button>
+    </div>
+    <div class="sidebar-items" id="sidebarItems">
+      <p class="empty-msg">No recipes saved yet.</p>
+    </div>
+    <div class="sidebar-footer" id="sidebarFooter" hidden>
+      <button class="btn btn-primary btn-full" id="mealPlanBtn">Save as Meal Plan</button>
+    </div>
+  </aside>
+
+  <!-- Meal Plan Modal -->
+  <div class="modal-backdrop" id="modalBackdrop" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-header">
+        <h2 id="modalTitle">Save Meal Plan</h2>
+        <button class="close-btn" id="closeModalBtn">✕</button>
+      </div>
+      <div class="modal-body">
+        <label for="emailInput">Email address</label>
+        <input type="email" id="emailInput" placeholder="you@example.com" />
+
+        <label for="weekInput">Week of</label>
+        <input type="date" id="weekInput" />
+
+        <div class="plan-summary" id="planSummary"></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="cancelModalBtn">Cancel</button>
+        <button class="btn btn-primary" id="savePlanBtn">Save Meal Plan</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast" hidden></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
