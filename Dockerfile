@@ -1,9 +1,9 @@
-FROM node:18-alpine AS deps
+FROM node:22-alpine AS deps
 WORKDIR /app
 COPY package*.json ./
 RUN npm install --only=production
 
-FROM node:18-alpine
+FROM node:22-alpine
 WORKDIR /app
 
 # Install tini and create non-root user BEFORE switching user
