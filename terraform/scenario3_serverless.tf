@@ -1,4 +1,4 @@
-# ── Scenario 3: Azure Functions + Blob Static Website ─────────────────────────
+# ── Scenario 3: Azure Functions (Python) + Blob Static Website ────────────────
 
 resource "azurerm_storage_account" "functions" {
   name                     = "${var.prefix}fn${local.suffix}sa"
@@ -28,7 +28,7 @@ resource "azurerm_linux_function_app" "main" {
   service_plan_id            = azurerm_service_plan.functions.id
 
   site_config {
-    application_stack { node_version = "20" }
+    application_stack { python_version = "3.11" }
     cors {
       allowed_origins     = [azurerm_storage_account.main.primary_web_endpoint, "https://portal.azure.com"]
       support_credentials = false
@@ -36,19 +36,8 @@ resource "azurerm_linux_function_app" "main" {
   }
 
   app_settings = {
-    FUNCTIONS_WORKER_RUNTIME      = "node"
-    WEBSITE_RUN_FROM_PACKAGE      = "1"
-    WEBSITE_NODE_DEFAULT_VERSION  = "~22"
-    SCM_DO_BUILD_DURING_DEPLOYMENT = "false"
-
-    # Deploy functions code from GitHub after terraform apply:
-    # In Azure Cloud Shell (bash):
-    #   git clone https://github.com/flye238/cloudkitchen.git
-    #   cd cloudkitchen/functions
-    #   npm install
-    #   cd ..
-    #   zip -r functions-with-deps.zip functions/
-    #   az functionapp deployment source config-zip --name <func-name> --resource-group <rg> --src functions-with-deps.zip
+    FUNCTIONS_WORKER_RUNTIME       = "python"
+    SCM_DO_BUILD_DURING_DEPLOYMENT = "true"   # Required for Python — installs requirements.txt
 
     BLOB_STORAGE_BASE_URL = local.blob_base_url
     COSMOS_ENDPOINT       = azurerm_cosmosdb_account.main.endpoint
