@@ -7,10 +7,10 @@ packages:
   - curl
 
 runcmd:
-  - curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
+  - curl -fsSL https://deb.nodesource.com/setup_22.x | bash -
   - apt-get install -y nodejs
   - git clone ${repo_url} /opt/cloudkitchen
-  - cd /opt/cloudkitchen && npm ci --only=production
+  - cd /opt/cloudkitchen && npm install --only=production
   - |
     cat > /etc/cloudkitchen.env << 'ENVEOF'
     PORT=3000

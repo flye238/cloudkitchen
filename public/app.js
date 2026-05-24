@@ -3,7 +3,7 @@
  * For Scenario 3, update API_BASE to your Function App URL:
  *   const API_BASE = 'https://cloudkitchen-fn-xxxx.azurewebsites.net/api';
  */
-const API_BASE = '/api';
+const API_BASE = 'https://seckitchen-fn-gch5vm.azurewebsites.net/api';
 
 // ── State ──────────────────────────────────────────────────────────────────
 const cookbook = [];   // [{ recipe }]

@@ -64,7 +64,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "main" {
   sku                 = "Standard_B2s"
   instances           = 1
   admin_username      = "azureuser"
-  upgrade_mode        = "Automatic"
+  upgrade_mode        = "Manual"
 
   admin_ssh_key {
     username   = "azureuser"
@@ -124,7 +124,12 @@ resource "azurerm_monitor_autoscale_setting" "vmss" {
 
   profile {
     name = "defaultProfile"
-    capacity { default = 1; minimum = 1; maximum = 5 }
+
+    capacity {
+      default = 1
+      minimum = 1
+      maximum = 5
+    }
 
     rule {
       metric_trigger {
@@ -137,7 +142,12 @@ resource "azurerm_monitor_autoscale_setting" "vmss" {
         operator           = "GreaterThan"
         threshold          = 70
       }
-      scale_action { direction = "Increase"; type = "ChangeCount"; value = "1"; cooldown = "PT5M" }
+      scale_action {
+        direction = "Increase"
+        type      = "ChangeCount"
+        value     = "1"
+        cooldown  = "PT5M"
+      }
     }
 
     rule {
@@ -151,7 +161,12 @@ resource "azurerm_monitor_autoscale_setting" "vmss" {
         operator           = "LessThan"
         threshold          = 30
       }
-      scale_action { direction = "Decrease"; type = "ChangeCount"; value = "1"; cooldown = "PT5M" }
+      scale_action {
+        direction = "Decrease"
+        type      = "ChangeCount"
+        value     = "1"
+        cooldown  = "PT5M"
+      }
     }
   }
 }

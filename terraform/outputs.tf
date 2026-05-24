@@ -22,7 +22,7 @@ output "cosmos_primary_key" {
 }
 
 output "postgres_fqdn" {
-  description = "PostgreSQL FQDN (private, VNet-only)"
+  description = "PostgreSQL FQDN (public access, SSL enforced)"
   value       = azurerm_postgresql_flexible_server.main.fqdn
 }
 
@@ -36,13 +36,14 @@ output "acr_login_server" {
   value       = azurerm_container_registry.main.login_server
 }
 
-output "container_app_fqdn" {
-  description = "Scenario 2 — visit https://<fqdn>"
-  value       = azurerm_container_app.main.latest_revision_fqdn
-}
+# Uncomment after container app is deployed
+# output "container_app_fqdn" {
+#   description = "Scenario 2 — visit https://<fqdn>"
+#   value       = azurerm_container_app.main.latest_revision_fqdn
+# }
 
 output "function_app_name" {
-  description = "Use for: az functionapp deployment source config-zip --name <this>"
+  description = "Use for functions deployment"
   value       = azurerm_linux_function_app.main.name
 }
 
